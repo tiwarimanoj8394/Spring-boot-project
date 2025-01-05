@@ -11,3 +11,18 @@ jobs:
     steps:
     - name: checkout the code
       uses: actions/checkout@v2
+      
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11' # Set the Java version you are using, e.g., 11, 17, etc.
+        distribution: 'adoptopenjdk'
+
+    - name: Cache Maven dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+

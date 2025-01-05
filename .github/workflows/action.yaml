@@ -15,8 +15,8 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '11' # Set the Java version you are using, e.g., 11, 17, etc.
-        distribution: 'adoptopenjdk'
+        java-version: '21' # Set the Java version you are using, e.g., 11, 17, etc.
+        distribution: 'temurin'
 
     - name: Cache Maven dependencies
       uses: actions/cache@v2

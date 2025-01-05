@@ -15,7 +15,7 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v2
       with:
-        java-version: '21' # Set the Java version you are using, e.g., 11, 17, etc.
+        java-version: '21' 
         distribution: 'temurin'
 
     - name: Cache Maven dependencies
@@ -28,4 +28,29 @@ jobs:
           
     - name: build the project with mvn
       run: cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package -DskipTests
+      
+    - name: SonarQube Scan
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} # Token should be saved as a secret in your repo's settings
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL}}
+      run: mvn sonar:sonar \
+        -Dsonar.projectKey=Project1 \
+        -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+        -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+     

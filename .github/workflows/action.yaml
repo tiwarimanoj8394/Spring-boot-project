@@ -63,12 +63,22 @@ jobs:
       with:
         context: ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
         push: true
-        # tags: manojtiwari000/app:latest
         tags: |
           "${{ secrets.DOCKER_USERNAME }}/app:${{ github.run_number }}"
         # "${{ secrets.DOCKER_USERNAME }}/app:latest"
      
-   
+    - name: Update Deployment File with Build Number
+      env:
+        BUILD_NUMBER: ${{ github.run_number }}  # Use GitHub Actions run number
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config user.email "manoj.xyz@gmail.com"
+        git config user.name "Manoj Tiwari"
+        # Replace 'replaceImageTag' with the unique build number or commit SHA
+        sed -i "s/latest/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+        git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+        git commit -m "Update deployment image to version ${BUILD_NUMBER}"
+        git push https://${GITHUB_TOKEN}@github.com/${{ github.repository }} HEAD:main
    
        
 

@@ -48,7 +48,7 @@ jobs:
 
     - name: Build and push docker image
       run: |
-        export IMAGE_TAG=${{ github.run_id }}
+        IMAGE_TAG=${{GITHUB.RUN_ID}}
         docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${IMAGE_TAG} ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
         docker tag ${{ secrets.DOCKER_USERNAME }}/my-app:${{IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/my-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{IMAGE_TAG}}:latest

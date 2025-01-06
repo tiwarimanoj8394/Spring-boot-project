@@ -37,49 +37,32 @@ jobs:
     #   run: cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Project1
         
 
-    - name: Setup docker buildx
-      uses:  docker/setup-buildx-action@v3
-      
     - name: Login to DockrHub
       uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: "Build a Push image tags"
-      uses: "docker/build-push-action@v5"
-      with:
-        context: ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
-        push: true
-        tags: |
-          "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.ref_name }}"
-    
-
-    # - name: Build and push docker image
-    #   run: |
-    #     BUILD_TAG=${{ github.run_number }}
-    #     docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${BUILD_TAG} ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
-    #     docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{BUILD_TAG}}
-
-    # - name: Log in to Docker Hub
-    #   uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-    #   with:
-    #     username: ${{ secrets.DOCKER_USERNAME }}
-    #     password: ${{ secrets.DOCKER_PASSWORD }}
-      
-    # - name: Extract metadata (tags, labels) for Docker
-    #   id: meta
-    #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-    #   with:
-    #     images: manojtiwari000/my-app
-      
-    # - name: Build and push Docker image
-    #   uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+    # - name: "Build a Push image tags"
+    #   uses: "docker/build-push-action@v5"
     #   with:
     #     context: ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
     #     push: true
-    #     tags: ${{ steps.meta.outputs.tags }}
-    #     labels: ${{ steps.meta.outputs.labels }}
+    #     tags: |
+    #       "${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.ref_name }}"
+    
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        push: true
+        tags: user/app:latest
      
    
    

@@ -63,7 +63,10 @@ jobs:
       with:
         context: ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
         push: true
-        tags: manojtiwari000/app:latest
+        # tags: manojtiwari000/app:latest
+        tags: |
+          "${{ secrets.DOCKER_USERNAME }}/app:${{ github.sha }}"
+          "${{ secrets.DOCKER_USERNAME }}/app:latest"
      
    
    

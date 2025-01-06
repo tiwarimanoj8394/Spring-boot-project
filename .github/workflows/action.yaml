@@ -48,7 +48,7 @@ jobs:
 
     - name: Build and push docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }} /java-maven-sonar-argocd-helm-k8s/spring-boot-app
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }} ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
         docker tag ${{ secrets.DOCKER_USERNAME }}/my-app:${{ github.sha }} ${{ secrets.DOCKER_USERNAME }}/my-app:latest
         docker push ${{ secrets.DOCKER_USERNAME }}/my-app:latest
      

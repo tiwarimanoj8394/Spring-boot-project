@@ -47,12 +47,10 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and push docker image
-      env:
-        IMAGE_TAG: ${{ github.run_id }}
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${IMAGE_TAG} ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
-        docker tag ${{ secrets.DOCKER_USERNAME }}/my-app:${{IMAGE_TAG }} ${{ secrets.DOCKER_USERNAME }}/my-app:latest
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{IMAGE_TAG}}:latest
+        BUILD_TAG: ${{ github.run_number }}
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:${BUILD_TAG} ./java-maven-sonar-argocd-helm-k8s/spring-boot-app
+        docker push ${{ secrets.DOCKER_USERNAME }}/my-app:${{BUILD_TAG}}
      
    
    
